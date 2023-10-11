@@ -33,23 +33,3 @@ class Postagem(models.Model):
         return self.titulo
 
 
-class Comentario(models.Model):
-    STATUS_CHOICES = (
-        ('rascunho', 'Rascunho'),
-        ('publicado', 'Publicado'),
-    )
-    nome = models.CharField(max_length=100)
-    email = models.EmailField()
-    senha = models.CharField(max_length=100)
-    texto = models.TextField()
-    criado = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(max_length=9, choices=STATUS_CHOICES, default='rascunho')
-    postagem = models.ForeignKey(Postagem, on_delete=models.CASCADE)
-
-    class Meta:
-        verbose_name = 'Comentário'
-        verbose_name_plural = 'Comentários'
-        ordering = ['-criado']
-
-    def __str__(self):
-        return self.nome
