@@ -1,5 +1,8 @@
 from django import forms
+from django.contrib.auth.forms import UserCreationForm
 from django.core.mail import EmailMessage
+
+from postagens.models import Comentario
 
 
 class EmailForm(forms.Form):
@@ -20,3 +23,22 @@ class EmailForm(forms.Form):
             headers={'Reply-to': self.cleaned_data["email"]},
         )
         mail.send()
+
+
+class ComentarioModelForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ('nome', 'email', 'texto',)
+
+    def salvar_comentario(self, post):
+        novo_coment = self.save(commit=False)
+        novo_coment.postagem = post
+        novo_coment.nome = self.cleaned_data['nome']
+        novo_coment.email = self.cleaned_data['email']
+        novo_coment.texto = self.cleaned_data['texto']
+        return novo_coment.save()
+
+
+class CadUsuarioForm(UserCreationForm):
+    class Meta:
+        fields = ('username', 'email', 'password1', 'password2',)

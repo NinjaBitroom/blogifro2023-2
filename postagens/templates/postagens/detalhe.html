@@ -22,7 +22,10 @@
                 <div class="mbr-section-btn align-center">
                     <a class="btn btn-primary display-4"
                        href="{% url 'enviarpost' post.id %}">Enviar...</a>
+                    <a class="btn btn-success display-4"
+                       href="{% url 'comentpost' post.id %}">Comentar...</a>
                 </div>
+
             </div>
         </div>
     </section>
@@ -31,6 +34,8 @@
             {% for comentario in comentarios %}
                 <h1>{{ comentario.nome }}</h1>
                 <p>{{ comentario.texto }}</p>
+            {% empty %}
+                <h1>Sem comentários...</h1>
             {% endfor %}
         </div>
     </section>

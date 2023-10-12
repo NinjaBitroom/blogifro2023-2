@@ -1,8 +1,9 @@
 from django.contrib import messages
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView, ListView, DetailView, FormView
+from django.views.generic import TemplateView, ListView, DetailView, FormView, CreateView
 
-from postagens.forms import EmailForm
+from postagens.forms import EmailForm, ComentarioModelForm
 from postagens.models import Postagem, Comentario
 
 
@@ -35,7 +36,7 @@ class DetalhePostView(DetailView):
 
     def get_context_data(self, **kwargs):
         ctx = super().get_context_data(**kwargs)
-        ctx['comentarios'] = Comentario.objects.filter(postagem=self.object)
+        ctx['comentarios'] = Comentario.objects.filter(postagem=self.object, status=True)
         return ctx
 
 
@@ -66,3 +67,18 @@ class EnviarPostFormView(FormView):
     def form_invalid(self, form):
         messages.error(self.request, 'Não foi possível enviar a Postagem')
         return super().form_invalid(form)
+
+
+class ComentarioCreateView(CreateView):
+    template_name = 'postagens/comentario.html'
+    form_class = ComentarioModelForm
+
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        ctx['post'] = Postagem.objects.get(id=self.kwargs['pk'])
+        return ctx
+
+    def form_valid(self, form):
+        post = Postagem.objects.get(id=self.kwargs['pk'])
+        form.salvar_comentario(post)
+        return redirect('detalhepost', post.id, post.slug)
