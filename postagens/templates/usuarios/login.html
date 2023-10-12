@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load bootstrap4 %}
-{% block titulo %} Comentário do Post: {{ post.titulo }}  {% endblock %}
+{% block titulo %} Login {% endblock %}
 {% block conteudo%}
     {% include 'includes/top.html' %}
     <section class="content10 cid-tzVgp39K95" data-bs-version="5.1" id="content10-1">
@@ -9,13 +9,11 @@
             <div class="row justify-content-center border border-ligth">
                 <div class="col-12">
                     <h6 class="mbr-section-subtitle mbr-fonts-style mb-4 display-3">
-                        Comentando a Postagem {{ post.titulo }}
+                        Login
                     </h6>
-                    <form action="" method="post" class="form-group">
+                    <form action="" method="post">
                         {% csrf_token %}
-                        <input class="form-control" type="text" id="usuario" name="name" value="{{ user.get_fullname }}" readonly>
-                        <input class="form-control" type="email" id="email" name="email" value="{{ user.email }}" readonly>
-                        <textarea class="form-control" id="texto" name="texto"></textarea>
+                        {% bootstrap_form form %}
                         <input class="btn btn-primary" type="submit" value="Enviar">
                     </form>
                 </div>
