@@ -38,7 +38,7 @@ class Comentario(models.Model):
     texto = models.TextField()
     criado = models.DateTimeField(auto_now_add=True)
     atualizado = models.DateTimeField(auto_now=True)
-    status = models.BooleanField(default=False)
+    status = models.BooleanField(default=True)
     postagem = models.ForeignKey(Postagem, on_delete=models.CASCADE, related_name='post_coments')
 
     class Meta:
