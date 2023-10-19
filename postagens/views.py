@@ -29,7 +29,7 @@ class PostsListView(TemplateView):
 
 class PostsListView(ListView):
     template_name = 'postagens/listar.html'
-    queryset = Postagem.objects.all().filter(status=True)
+    queryset = Postagem.objects.all().filter(status='publicado')
     context_object_name = 'posts'
     paginate_by = 2
 
