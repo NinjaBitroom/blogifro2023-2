@@ -4,7 +4,6 @@ from django.utils import timezone
 
 
 class PostsPublicados(models.Manager):
-
     def get_queryset(self):
         return super().get_queryset().filter(status='publicado')
 
@@ -36,16 +35,15 @@ class Postagem(models.Model):
 class Comentario(models.Model):
     nome = models.CharField(max_length=100)
     email = models.EmailField()
-    senha = models.CharField(max_length=100)
     texto = models.TextField()
     criado = models.DateTimeField(auto_now_add=True)
+    atualizado = models.DateTimeField(auto_now=True)
     status = models.BooleanField(default=False)
     postagem = models.ForeignKey(Postagem, on_delete=models.CASCADE, related_name='post_coments')
 
     class Meta:
         verbose_name = 'Comentário'
         verbose_name_plural = 'Comentários'
-        ordering = ['-criado']
 
     def __str__(self):
-        return self.nome
+        return f'Comentário de: {self.nome}'
